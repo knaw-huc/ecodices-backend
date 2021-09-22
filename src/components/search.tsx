@@ -1,6 +1,9 @@
 import React from "react";
+import SearchResultDetail from "../elements/searchResultsDetail";
 
 function Search() {
+
+
     return (
         <div>
             <div className="hcContentContainer">
@@ -30,9 +33,9 @@ function Search() {
                         <div className="hcResultsHeader hcMarginBottom1">
                             <div>5.666 Results</div>
                             <div><select className="" name="">
-                                <option value="">Order by Relevance</option>
-                                <option value="">Order by given name</option>
-                                <option value="">Order by family name</option>
+                                <option value="">Order by Title</option>
+                                <option value="">Order by Place</option>
+                                <option value="">Order by Date</option>
                             </select></div>
                         </div>
 
