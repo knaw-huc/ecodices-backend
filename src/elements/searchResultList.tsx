@@ -1,9 +1,13 @@
 import React from "react";
+import {IResultList, IResult} from "../misc/interfaces";
+import SearchResultDetail from "./searchResultsDetail";
 
-function SearchResultList() {
+function SearchResultList(props: {lst: IResultList }) {
     return (
-        <div>
-
+        <div className="hcLists hcMarginBottom2">
+            {props.lst.items.map((item) => {
+                return (<SearchResultDetail key = {item.xml} item={item}/>)
+            })}
         </div>
     )
 }

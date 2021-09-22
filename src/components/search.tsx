@@ -1,7 +1,27 @@
-import React from "react";
-import SearchResultDetail from "../elements/searchResultsDetail";
+import React, {useState, useEffect} from "react";
+import SearchResultList from "../elements/searchResultList";
+import {SERVICE_SERVER} from "../misc/config";
+import {IResultList} from "../misc/interfaces";
 
 function Search() {
+    const [result, setResult] = useState<IResultList>({} as IResultList);
+    const [loading, setLoading] = useState(true);
+    const [refresh, setRefresh] = useState(true);
+
+
+    async function fetchData() {
+        const url = SERVICE_SERVER + "browse?page=4";
+        const response = await fetch(url);
+        const json: IResultList = await response.json();
+        //setPages(createPages(json));
+        setResult(json);
+        setLoading(false);
+        setRefresh(refresh);
+    }
+
+    useEffect(() => {
+        fetchData();
+    }, [refresh]);
 
 
     return (
@@ -10,7 +30,7 @@ function Search() {
                 <div className="hcBasicSideMargin hcMarginTop4 hcMarginBottom1">
                     <h1>Manuscript search</h1>
                 </div>
-
+                {loading ? (<div className="loader">Loading...</div>) : (
                 <div className="hcLayoutFacet-Result hcBasicSideMargin hcMarginBottom15">
 
                     <div className="hcLayoutFacets">
@@ -31,7 +51,7 @@ function Search() {
 
                     <div className="hcLayoutResults">
                         <div className="hcResultsHeader hcMarginBottom1">
-                            <div>5.666 Results</div>
+                            <div>{result.amount} Results</div>
                             <div><select className="" name="">
                                 <option value="">Order by Title</option>
                                 <option value="">Order by Place</option>
@@ -51,56 +71,8 @@ function Search() {
                             </div>
                         </div>
 
-                        <div className="hcLists hcMarginBottom2">
+                        <SearchResultList lst={result}/>
 
-                            <div className="hcColumnsAuto hcPointer hcRowCard">
-                                <div className="hcCell--x2"><strong>Leiden, UB : ms. VLF 70 : I-A</strong></div>
-                                <div>Orléanais</div>
-                                <div>0900-1000 $ [10th century]</div>
-                            </div>
-                            <div className="hcColumnsAuto hcPointer hcRowCard">
-                                <div className="hcCell--x2"><strong>Utrecht, UB : Cat. 117</strong>
-                                </div>
-                                <div>Northern Netherlands</div>
-                                <div>1489-1490</div>
-                            </div>
-                            <div className="hcColumnsAuto hcPointer hcRowCard">
-                                <div className="hcCell--x2"><strong>Leiden, UB : ms. VLQ 64</strong></div>
-                                <div>France</div>
-                                <div>0800-0850 $ [first half 9th century]</div>
-                            </div>
-                            <div className="hcColumnsAuto hcPointer hcRowCard">
-                                <div className="hcCell--x2"><strong>Leiden, UB : ms. VLQ 5</strong></div>
-                                <div>1810-10-14<br/></div>
-                                <div>1929<br/>Enschede</div>
-                            </div>
-                            <div className="hcColumnsAuto hcPointer hcRowCard">
-                                <div className="hcCell--x2"><strong>Leiden, UB : ms. SCA 49</strong></div>
-                                <div>southern German regions</div>
-                                <div>0800 $ [ca. 800]</div>
-                            </div>
-                            <div className="hcColumnsAuto hcPointer hcRowCard">
-                                <div className="hcCell--x2"><strong>The Hague, KB : ms. 73 J 7</strong></div>
-                                <div>[S.l.]</div>
-                                <div>1100-1200 $ [12th century]</div>
-                            </div>
-                            <div className="hcColumnsAuto hcPointer hcRowCard">
-                                <div className="hcCell--x2"><strong>Leiden, UB : ms. BPL 3072</strong></div>
-                                <div>Apennine Peninsula</div>
-                                <div>1494</div>
-                            </div>
-                            <div className="hcColumnsAuto hcPointer hcRowCard">
-                                <div className="hcCell--x2"><strong>Leiden, UB : ms. VLF 112</strong></div>
-                                <div>France</div>
-                                <div>0900-1000 $ [10th century]<br/></div>
-                            </div>
-                            <div className="hcColumnsAuto hcPointer hcRowCard">
-                                <div className="hcCell--x2"><strong>The Hague, KB : ms. 70 H 2</strong>
-                                </div>
-                                <div>[S.l.]</div>
-                                <div>1100-1200 $ [12th century]</div>
-                            </div>
-                        </div>
                         <div className="hcPagination">
                             <div><a href="#">&#8592; Previous</a></div>
                             <div><a href="#">1</a></div>
@@ -112,7 +84,7 @@ function Search() {
                             <div><a href="#">Next &#8594;</a></div>
                         </div>
                     </div>
-                </div>
+                </div> )}
             </div>
         </div>
     )

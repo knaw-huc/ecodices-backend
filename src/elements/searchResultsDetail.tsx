@@ -1,11 +1,12 @@
 import React from "react";
+import {IResult} from "../misc/interfaces";
 
-function SearchResultDetail() {
+function SearchResultDetail(props: {item: IResult}) {
     return (
         <div className="hcColumnsAuto hcPointer hcRowCard">
-            <div className="hcCell--x2"><strong>Jan Willem Giltay</strong></div>
-            <div>1851<br/>Dordrecht</div>
-            <div>1929<br/></div>
+            <div className="hcCell--x2"><strong>{props.item.title}</strong></div>
+            <div>{props.item.origPlace}</div>
+            <div>{props.item.origDate}</div>
         </div>
     )
 }
