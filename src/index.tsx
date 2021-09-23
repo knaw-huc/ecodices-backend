@@ -1,17 +1,53 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import Search from "./components/search";
+import Manuscript from "./components/manuscript";
+import {StateMachineComponent} from "./renderMachine";
+import {interpret} from "xstate";
+import {EcodicesMachine} from "./machine/ecodices";
+import './assets/css/style.css';
+
+
+const interpreter = interpret(EcodicesMachine);
+interpreter.start();
+
+gotoUrl();
+
+function gotoUrl() {
+    if (window.location.hash.substr(1).indexOf("detail/") === 0) {
+        const id = window.location.hash.substr(window.location.hash.indexOf("/") + 1);
+        interpreter.send("fourOhFour"); //Filthy solution for forcing props reload!!!
+        interpreter.send("detail", {manuscript_id: id});
+    } else {
+        if (window.location.hash.substr(1).indexOf("search") === 0) {
+            if (window.location.hash.substr(1).length > 6 && window.location.hash.substr(1).indexOf("search") !== -1) {
+                const id = window.location.hash.substr(window.location.hash.indexOf("/") + 1);
+                interpreter.send("search", {search_string: id});
+            } else {
+                const id = "none";
+                interpreter.send("search", {search_string: id});
+            }
+        } else {
+            const id = "none";
+            interpreter.send("search", {search_string: id});
+        }
+    }
+}
+
+window.onhashchange = gotoUrl;
+
+
+
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+    <div>
+        {StateMachineComponent(interpreter, {
+            "detail": ({state}) => <Manuscript manuscriptID={(state.context || {}).manuscript_id}/>,
+            "search": ({state}) => <Search  search_string={(state.context || {}).search_string}/>,
+            "fourOhFour": ({state}) => <div>404</div>,
+            "": ({state}) => <div>The GUI for {state.value} is not yet defined</div>
+        })}</div>
+    , document.getElementById('root'));
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+
+
