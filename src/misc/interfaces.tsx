@@ -8,7 +8,14 @@ export interface IResult {
     xml: string,
     origPlace: string,
     origDate: string,
-    title: string
+    title: string,
+    shelfmark: string,
+    itemAuthor: string,
+    itemTitle: string,
+    layout: string,
+    measure: string,
+    summary: string,
+    textLang: ILanguage[]
 }
 
 
@@ -17,6 +24,10 @@ export interface ISearchObject {
     page: number,
     page_length: number,
     sortorder: string
+}
+
+export interface ILanguage {
+    language: string
 }
 
 export interface ISortOrder {
@@ -54,4 +65,8 @@ export interface IResetFacets {
 
 export interface IRemoveFacet {
     (field: string, value: string): void
+}
+
+export interface IDetailView {
+    (value: boolean, result: IResult): void
 }

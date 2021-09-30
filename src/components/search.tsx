@@ -1,9 +1,11 @@
 import React, {useState, useEffect} from "react";
 import SearchResultList from "../elements/searchResultList";
 import {SERVICE_SERVER} from "../misc/config";
-import {IResultList, ISearchObject, ISortOrder, ISendPage, ISendCandidate, IFacetCandidate, ISearchValues, IResetFacets, IRemoveFacet} from "../misc/interfaces";
+import {IResultList, IResult, ISearchObject, ISortOrder, ISendPage, ISendCandidate, IFacetCandidate, ISearchValues, IResetFacets, IRemoveFacet, IDetailView} from "../misc/interfaces";
 import ListFacet from "../facets/listFacet";
+import FilterFacet from "../facets/filterFacet";
 import FreeTextFacet from "../facets/freeTextFacet";
+import Manuscript from "./manuscript";
 import PageHeader from "../pageElements/pageHeader";
 import {Base64} from "js-base64";
 
@@ -20,6 +22,8 @@ function Search(props: {search_string: string}) {
     const [refresh, setRefresh] = useState(true);
     const [searchStruc, setSearchStruc] = useState(searchBuffer);
     const [pages, setPages] = useState<number[]>([]);
+    const [detail, setDetail] = useState(false);
+    const [item, setItem] = useState<IResult>({xml: "", origDate: "", origPlace: "", title: "Test", shelfmark: "", itemAuthor: "", itemTitle: "", measure: "", textLang: [], summary: "", layout: ""})
 
     if (props.search_string !== "none") {
         try {
@@ -81,6 +85,11 @@ function Search(props: {search_string: string}) {
         searchBuffer.searchvalues = "none";
         setSearchStruc(searchBuffer);
         setRefresh(!refresh);
+    }
+
+    const detailView: IDetailView = (value: boolean, result: IResult) => {
+        setDetail(value);
+        setItem(result);
     }
 
     const removeFacet: IRemoveFacet = (field: string, value: string) => {
@@ -188,7 +197,51 @@ function Search(props: {search_string: string}) {
     return (
         <div>
             <PageHeader/>
-            <div className="hcContentContainer">
+            {detail ?
+                (<div className="hcContentContainer">
+                    <div className="hcBasicSideMargin hcMarginTop4 hcMarginBottom1">
+                        <h1>{item.title}</h1>
+                        <div className="hcFormStack hcMarginBottom3 hcBasicSideMargin">
+                            <div className="hcStackInfo">
+                                <div className="hcClickable">Show TEI file</div>
+                                <div className="hcClickable">Edit</div>
+                                <div className="hcClickable" onClick={() => setDetail(false)}>Back</div>
+                            </div>
+                            <div className="hcStackFormItems">
+                                <div className="hcLabel">Original place</div>
+                                <div className="hcMarginBottom1">{item.origPlace}<br/>
+                                    Dordrecht</div>
+
+                                <div className="hcLabel">Original date</div>
+                                <div className="hcMarginBottom1">{item.origDate}<br/>
+                                </div>
+
+                                <div className="hcLabel">Shelfmark</div>
+                                <div className="hcMarginBottom1">{item.shelfmark}<br/>
+                                </div>
+
+                                <div className="hcLabel">Title</div>
+                                <div className="hcMarginBottom1">{item.itemTitle}<br/>
+                                </div>
+
+                                <div className="hcLabel">Author</div>
+                                <div className="hcMarginBottom1">{item.itemAuthor}<br/>
+                                </div>
+
+                                <div className="hcLabel">Layout</div>
+                                <div className="hcMarginBottom1">{item.layout}<br/>
+                                </div>
+
+                                <div className="hcLabel">TEI file</div>
+                                <div className="hcMarginBottom1">{item.xml}</div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div> )
+                :
+                (<div className="hcContentContainer">
                 <div className="hcBasicSideMargin hcMarginTop1 hcMarginBottom1">
                     <h1>Manuscript search</h1>
                 </div>
@@ -202,6 +255,7 @@ function Search(props: {search_string: string}) {
                         <div className="hcLayoutFacetsToggel" id="hcLayoutFacetsToggel">
 
                             <FreeTextFacet add={sendCandidate}/>
+                            <FilterFacet parentCallback={sendCandidate} label="title" field="itemTitle" min={5} max={20} />
                             <ListFacet parentCallback={sendCandidate} label="Original language" field="textLang.language" min={5} max={50} />
                             <ListFacet parentCallback={sendCandidate} label="Location" field="location" min={5} max={50} />
                             <ListFacet parentCallback={sendCandidate} label="Original place" field="origPlace" min={5} max={100} />
@@ -251,7 +305,7 @@ function Search(props: {search_string: string}) {
                             </div>
                         </div>
 
-                        <SearchResultList lst={result}/>
+                        <SearchResultList lst={result} view={detailView}/>
 
                         {!loading && result.amount > searchStruc.page_length ? (
                             <div className="hcPagination">
@@ -278,7 +332,7 @@ function Search(props: {search_string: string}) {
                         ) : (<div/>)}
                     </div>
                 </div> )}
-            </div>
+            </div>)}
         </div>
     )
 }
