@@ -8,6 +8,7 @@ import FreeTextFacet from "../facets/freeTextFacet";
 import Manuscript from "./manuscript";
 import PageHeader from "../pageElements/pageHeader";
 import {Base64} from "js-base64";
+import {HOME} from "../misc/config";
 
 function Search(props: {search_string: string}) {
 
@@ -204,7 +205,9 @@ function Search(props: {search_string: string}) {
                         <h1>{item.title}</h1>
                         <div className="hcFormStack hcMarginBottom3 hcBasicSideMargin">
                             <div className="hcStackInfo">
-                                <div className="hcClickable">Show TEI file</div>
+                                <div className="hcClickable" onClick={() => {
+                                    window.open(HOME + "tei_files/" + item.xml.charAt(0) + "/" + item.xml, "new");
+                                }}>Show TEI file</div>
                                 <div className="hcClickable">Edit</div>
                                 <div className="hcClickable" onClick={() => setDetail(false)}>Back</div>
                             </div>
