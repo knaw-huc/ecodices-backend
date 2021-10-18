@@ -63,6 +63,7 @@ function Search(props: {search_string: string}) {
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
+                'Origin': 'http://localhost:8091'
             },
             body: JSON.stringify(searchStruc)
         });
