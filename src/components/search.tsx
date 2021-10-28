@@ -146,7 +146,6 @@ function Search(props: {search_string: string}) {
             searchBuffer.page = 1;
             setSearchStruc(searchBuffer);
             setRefresh(!refresh);
-            console.log(searchStruc);
             window.scroll(0, 0);
         }
     }
@@ -259,6 +258,7 @@ function Search(props: {search_string: string}) {
                         <div className="hcLayoutFacetsToggel" id="hcLayoutFacetsToggel">
 
                             <FreeTextFacet add={sendCandidate}/>
+                            <ListFacet parentCallback={sendCandidate} label="Manuscript type" field="manuscriptType" min={5} max={20} />
                             <FilterFacet parentCallback={sendCandidate} label="title" field="itemTitle" min={5} max={20} />
                             <ListFacet parentCallback={sendCandidate} label="Original language" field="textLang.language" min={5} max={50} />
                             <ListFacet parentCallback={sendCandidate} label="Location" field="location" min={5} max={50} />
