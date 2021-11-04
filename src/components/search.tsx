@@ -9,6 +9,7 @@ import Manuscript from "./manuscript";
 import PageHeader from "../pageElements/pageHeader";
 import {Base64} from "js-base64";
 import {HOME} from "../misc/config";
+import Viewer from "./viewer";
 
 function Search(props: {search_string: string}) {
 
@@ -23,8 +24,12 @@ function Search(props: {search_string: string}) {
     const [refresh, setRefresh] = useState(true);
     const [searchStruc, setSearchStruc] = useState(searchBuffer);
     const [pages, setPages] = useState<number[]>([]);
+
     const [detail, setDetail] = useState(false);
     const [item, setItem] = useState<IResult>({xml: "", origDate: "", origPlace: "", title: "Test", shelfmark: "", itemAuthor: "", itemTitle: "", measure: "", textLang: [], summary: "", layout: ""})
+
+
+
 
     if (props.search_string !== "none") {
         try {
@@ -208,6 +213,7 @@ function Search(props: {search_string: string}) {
                                     window.open(HOME + "tei_files/" + item.xml.charAt(0) + "/" + item.xml, "new");
                                 }}>Show TEI file</div>
                                 <div className="hcClickable">Edit</div>
+                                <div className="hcClickable" onClick={() => window.open(HOME + "#viewer") }>View IIIF</div>
                                 <div className="hcClickable" onClick={() => setDetail(false)}>Back</div>
                             </div>
                             <div className="hcStackFormItems">
@@ -242,6 +248,7 @@ function Search(props: {search_string: string}) {
                         </div>
 
                     </div>
+
                 </div> )
                 :
                 (<div className="hcContentContainer">

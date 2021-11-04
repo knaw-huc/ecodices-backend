@@ -6,6 +6,7 @@ import {StateMachineComponent} from "./renderMachine";
 import {interpret} from "xstate";
 import {EcodicesMachine} from "./machine/ecodices";
 import './assets/css/style.css';
+import Viewer from "./components/viewer";
 
 
 const interpreter = interpret(EcodicesMachine);
@@ -28,8 +29,13 @@ function gotoUrl() {
                 interpreter.send("search", {search_string: id});
             }
         } else {
-            const id = "none";
-            interpreter.send("search", {search_string: id});
+            if (window.location.hash.substr(1).indexOf("viewer") === 0) {
+                interpreter.send("viewer");
+            } else {
+                const id = "none";
+                interpreter.send("search", {search_string: id});
+            }
+
         }
     }
 }
@@ -44,6 +50,7 @@ ReactDOM.render(
         {StateMachineComponent(interpreter, {
             "detail": ({state}) => <Manuscript manuscriptID={(state.context || {}).manuscript_id}/>,
             "search": ({state}) => <Search  search_string={(state.context || {}).search_string}/>,
+            "viewer": () => <Viewer/>,
             "fourOhFour": ({state}) => <div>404</div>,
             "": ({state}) => <div>The GUI for {state.value} is not yet defined</div>
         })}</div>

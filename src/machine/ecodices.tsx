@@ -8,6 +8,7 @@ export const EcodicesMachine = Machine<{
         fourOhFour: {},
         detail: {},
         search: {},
+        viewer: {}
     }
 }>(
     {
@@ -30,6 +31,7 @@ export const EcodicesMachine = Machine<{
                 }),
                 target: "search"
             },
+            viewer: "viewer",
             "*": "fourOhFour"
         },
         states: {
@@ -44,7 +46,8 @@ export const EcodicesMachine = Machine<{
                 on: {
                     item: "detail"
                 }
-            }
+            },
+            viewer: {}
         }
     }
 );
