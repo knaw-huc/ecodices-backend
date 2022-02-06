@@ -8,7 +8,7 @@ import FreeTextFacet from "../facets/freeTextFacet";
 import Manuscript from "./manuscript";
 import PageHeader from "../pageElements/pageHeader";
 import {Base64} from "js-base64";
-import {HOME} from "../misc/config";
+import {HOME, EDITOR} from "../misc/config";
 import Viewer from "./viewer";
 
 function Search(props: {search_string: string}) {
@@ -212,7 +212,9 @@ function Search(props: {search_string: string}) {
                                 <div className="hcClickable" onClick={() => {
                                     window.open(HOME + "tei_files/" + item.xml.charAt(0) + "/" + item.xml, "new");
                                 }}>Show TEI file</div>
-                                <div className="hcClickable">Edit</div>
+                                <div className="hcClickable" onClick={() => {
+                                    window.open(EDITOR + item.xml.replace(".xml", ""));
+                                }}>Edit</div>
                                 <div className="hcClickable" onClick={() => window.open(HOME + "#viewer") }>View IIIF</div>
                                 <div className="hcClickable" onClick={() => setDetail(false)}>Back</div>
                             </div>
