@@ -2,7 +2,7 @@ import {assign, Machine} from "xstate";
 
 export const EcodicesMachine = Machine<{
     search_string: string,
-    manuscript_id: string
+    id: string
 }, {
     states: {
         fourOhFour: {},
@@ -16,12 +16,12 @@ export const EcodicesMachine = Machine<{
         initial: 'search',
         context: {
             search_string: "none",
-            manuscript_id: "",
+            id: "",
         },
         on: {
             detail: {
                 actions: assign({
-                    manuscript_id: (context, event) => event.manuscript_id
+                    id: (context, event) => event.id
                 }),
                 target: "detail"
             },

@@ -7,6 +7,7 @@ import {interpret} from "xstate";
 import {EcodicesMachine} from "./machine/ecodices";
 import './assets/css/style.css';
 import Viewer from "./components/viewer";
+import Detail from "./components/detail";
 
 
 const interpreter = interpret(EcodicesMachine);
@@ -18,7 +19,7 @@ function gotoUrl() {
     if (window.location.hash.substr(1).indexOf("detail/") === 0) {
         const id = window.location.hash.substr(window.location.hash.indexOf("/") + 1);
         interpreter.send("fourOhFour"); //Filthy solution for forcing props reload!!!
-        interpreter.send("detail", {manuscript_id: id});
+        interpreter.send("detail", {id: id});
     } else {
         if (window.location.hash.substr(1).indexOf("search") === 0) {
             if (window.location.hash.substr(1).length > 6 && window.location.hash.substr(1).indexOf("search") !== -1) {
@@ -48,7 +49,7 @@ window.onhashchange = gotoUrl;
 ReactDOM.render(
     <div>
         {StateMachineComponent(interpreter, {
-            "detail": ({state}) => <Manuscript manuscriptID={(state.context || {}).manuscript_id}/>,
+            "detail": ({state}) => <Detail id={(state.context || {}).id}/>,
             "search": ({state}) => <Search  search_string={(state.context || {}).search_string}/>,
             "viewer": () => <Viewer/>,
             "fourOhFour": ({state}) => <div>404</div>,
