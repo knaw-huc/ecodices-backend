@@ -6,9 +6,8 @@ import Viewer from "./viewer";
 import {fromBase64} from "js-base64";
 
 function Detail(props: {id: string}) {
-    console.log(props.id);
-    const buffer:IResult = JSON.parse(fromBase64(props.id));
-    const [item, setItem] = useState<IResult>(buffer);
+    const item:IResult = JSON.parse(fromBase64(props.id));
+    //const [item, setItem] = useState<IResult>(buffer);
 
     return (
         <div>
@@ -29,8 +28,7 @@ function Detail(props: {id: string}) {
                         </div>
                         <div className="hcStackFormItems">
                             <div className="hcLabel">Original place</div>
-                            <div className="hcMarginBottom1">{item.origPlace}<br/>
-                                Dordrecht</div>
+                            <div className="hcMarginBottom1">{item.origPlace}</div>
 
                             <div className="hcLabel">Original date</div>
                             <div className="hcMarginBottom1">{item.origDate}<br/>
