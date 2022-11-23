@@ -212,12 +212,20 @@ function Search(props: {search_string: string}) {
                         <div className="hcLayoutFacetsToggel" id="hcLayoutFacetsToggel">
 
                             <FreeTextFacet add={sendCandidate}/>
-                            <ListFacet parentCallback={sendCandidate} label="Manuscript type" field="manuscriptType" min={5} max={20} />
-                            <FilterFacet parentCallback={sendCandidate} label="title" field="itemTitle" min={5} max={20} />
-                            <ListFacet parentCallback={sendCandidate} label="Original language" field="textLang.language" min={5} max={50} />
+                            {/*<ListFacet parentCallback={sendCandidate} label="Manuscript type" field="manuscriptType" min={5} max={20} />
+                            <FilterFacet parentCallback={sendCandidate} label="title" field="title" min={5} max={20} />
+                            <ListFacet parentCallback={sendCandidate} label="Original language" field="language" min={5} max={50} />
                             <ListFacet parentCallback={sendCandidate} label="Location" field="location" min={5} max={50} />
-                            <ListFacet parentCallback={sendCandidate} label="Original place" field="origPlace" min={5} max={100} />
-
+                            <ListFacet parentCallback={sendCandidate} label="Original place" field="origPlace" min={5} max={100} />*/}
+                            <ListFacet parentCallback={sendCandidate} label="Collection" field="collection" min={5} max={200}/>
+                            <ListFacet parentCallback={sendCandidate} label="Place of Origin" field="place" min={5} max={200}/>
+                            <ListFacet parentCallback={sendCandidate} label="Text Language" field="language" min={5} max={200}/>
+                            <ListFacet parentCallback={sendCandidate} label="Date of Origin" field="origDate" min={5} max={200}/>
+                            <ListFacet parentCallback={sendCandidate} label="Document type" field="type" min={5} max={200}/>
+                            <ListFacet parentCallback={sendCandidate} label="Binding" field="binding" min={5} max={200}/>
+                            <ListFacet parentCallback={sendCandidate} label="Decorations" field="decoration" min={5} max={200}/>
+                            <ListFacet parentCallback={sendCandidate} label="Material" field="material" min={5} max={200}/>
+                            <ListFacet parentCallback={sendCandidate} label="Music Notation" field="musicnotation" min={5} max={200}/>
                         </div>
                     </div>
 

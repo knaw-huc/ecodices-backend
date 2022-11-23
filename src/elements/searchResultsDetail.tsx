@@ -10,7 +10,7 @@ function SearchResultDetail(props: {item: IResult}) {
     return (
         <div className="hcColumnsAuto hcPointer hcRowCard" onClick={() => goDetail(props.item)}>
             <div className="hcCell--x2"><strong>{props.item.title}</strong></div>
-            <div>{props.item.origPlace}</div>
+            <div>{props.item.place}</div>
             <div>{props.item.origDate}</div>
         </div>
     )

@@ -6,7 +6,7 @@ export interface IResultList {
 
 export interface IResult {
     xml: string,
-    origPlace: string,
+    place: string,
     origDate: string,
     title: string,
     shelfmark: string,

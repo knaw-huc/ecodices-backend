@@ -28,7 +28,7 @@ function Detail(props: {id: string}) {
                         </div>
                         <div className="hcStackFormItems">
                             <div className="hcLabel">Original place</div>
-                            <div className="hcMarginBottom1">{item.origPlace}</div>
+                            <div className="hcMarginBottom1">{item.place}</div>
 
                             <div className="hcLabel">Original date</div>
                             <div className="hcMarginBottom1">{item.origDate}<br/>
@@ -39,11 +39,11 @@ function Detail(props: {id: string}) {
                             </div>
 
                             <div className="hcLabel">Title</div>
-                            <div className="hcMarginBottom1">{item.itemTitle}<br/>
+                            <div className="hcMarginBottom1">{item.title}<br/>
                             </div>
 
-                            <div className="hcLabel">Author</div>
-                            <div className="hcMarginBottom1">{item.itemAuthor}<br/>
+                            <div className="hcLabel">Summary</div>
+                            <div className="hcMarginBottom1">{item.summary}<br/>
                             </div>
 
                             <div className="hcLabel">Layout</div>
